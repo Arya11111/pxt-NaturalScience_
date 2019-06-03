@@ -100,6 +100,9 @@ namespace NaturalScience {
         writeReg(TCS34725_ADDRESS, 0 | REG_TCS34725_COMMAND_BIT, ret)
     }
 
+    /**
+     * 获取TCS34725颜色传感器的红色分量
+     */
     //% block="Get red"
     //% weight=60 
     export function getRed(): number {
@@ -107,14 +110,19 @@ namespace NaturalScience {
         return TCS34725_RGBC_R;
     }
 
+    /**
+     * 获取TCS34725颜色传感器的绿色分量
+     */
     //% block="Get green"
     //% weight=60 
- 
     export function getGreen(): number {
         getRGBC();
         return TCS34725_RGBC_G;
     }
 
+    /**
+     * 获取TCS34725颜色传感器的蓝色分量
+     */
     //% block="Get blue"
     //% weight=60 
     export function getBlue(): number {
@@ -122,6 +130,9 @@ namespace NaturalScience {
         return TCS34725_RGBC_B;
     }
 
+    /**
+     * 获取TCS34725颜色传感器的自然光线值
+     */
     //% block="Get light"
     //% weight=60 
     export function getC(): number {
@@ -130,7 +141,7 @@ namespace NaturalScience {
     }
 
     /**
-     * STM32
+     * STM32  function
      */
 
     let STM32_ADDRESS = 0X10;
@@ -179,6 +190,9 @@ namespace NaturalScience {
         return str;
     }
 
+    /**
+     * 获取紫外线传感器的UV值
+     */
     //% block="get UV"
     //% weight=70
     export function getUV(): number {
@@ -187,6 +201,9 @@ namespace NaturalScience {
         return (ret1 << 8) | ret2;
     }
 
+    /**
+     * 获取TDS传感器的TDS值
+     */
     //% block="get TDS"
     //% weight=70
     export function getTDS(): number {
@@ -194,7 +211,10 @@ namespace NaturalScience {
         let ret2 = readReg(STM32_ADDRESS, REG_SEM32_TDS_L);
         return (ret1 << 8) | ret2;
     }
-
+    
+    /**
+     * 获取声音强度函数
+     */
     //% block="get noise"
     //% weight=70
     export function getNoise(): number {
@@ -280,6 +300,9 @@ namespace NaturalScience {
         Humidity
     }
 
+    /**
+     * 获取BME280传感器的压强、温度、湿度值
+     */
     //% block="get %data"
     //% weight=80
     export function readBME280Data(data: BME280Data): number {
@@ -296,7 +319,7 @@ namespace NaturalScience {
     }
 
     /**
-     * OLED
+     * OLED 12864显示屏
      */
     //% blockId=oled_show_text
     //% weight=90
