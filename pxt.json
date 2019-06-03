@@ -1,0 +1,25 @@
+{
+    "name": "NaturalScience",
+    "version": "1.2.6",
+    "description": "",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*",
+        "radio":"*"
+    },
+    "files": [
+        "README.md",
+        "SSD1306_OLED.cpp",
+        "Adafruit_SSD1306.h",
+        "Adafruit_SSD1306.cpp",
+        "Adafruit_GFX.h",
+        "Adafruit_GFX.cpp",
+        "Adafruit_GFX_Config.h",
+        "glcdfont.h",
+        "NaturalScience.ts",
+        "_locales/zh/NaturalScience-strings.json",
+        "ds18b20.cpp"
+    ],
+    "testFiles": [],
+    "public": false
+}
