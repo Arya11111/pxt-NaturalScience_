@@ -24,12 +24,6 @@ namespace NaturalScience {
     let TCS34725_RGBC_B = 0;
     let TCS34725_BEGIN = 0;
     let TCS34725_ENABLE_AIEN = 0X10;
-    enum TCS34275_ENABLE {
-        POWER_ON = 0x01,
-        POWER_OFF = 0x00,
-        RGBC_ENABLE = 0X01,
-        RGBC_DISABLE = 0X00
-    }
 
     function getInt8LE(addr: number, reg: number): number {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
