@@ -25,6 +25,7 @@ namespace NaturalScience {
     let TCS34725_BEGIN = 0;
     let TCS34725_ENABLE_AIEN = 0X10;
 
+
     function getInt8LE(addr: number, reg: number): number {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
         return pins.i2cReadNumber(addr, NumberFormat.Int8LE);
@@ -152,13 +153,6 @@ namespace NaturalScience {
     }
 
 
-    function getK(): string {
-        let ret1 = readReg(STM32_ADDRESS, REG_STM32_K_INTEGER);
-        let ret2 = readReg(STM32_ADDRESS, REG_SEM32_K_DECIMAL);
-        let str = ".";
-        str = ret1 + str + ret2;
-        return str;
-    }
 
     /**
      * 获取紫外线传感器的UV值
@@ -169,6 +163,35 @@ namespace NaturalScience {
         let ret1 = readReg(STM32_ADDRESS, REG_STM32_UV_H);
         let ret2 = readReg(STM32_ADDRESS, REG_SEM32_UV_L);
         return (ret1 << 8) | ret2;
+    }
+
+    /**
+     * 获取TDS传感器的K值
+     */
+    //% block="get TDS K Value"
+    //% weight=70
+    export function getK(): string {
+        let ret1 = readReg(STM32_ADDRESS, REG_STM32_K_INTEGER);
+        let ret2 = readReg(STM32_ADDRESS, REG_SEM32_K_DECIMAL);
+        let str = ".";
+        if (ret2 < 10) {
+            str = str + '0';
+        }
+        str = ret1 + str + ret2;
+        return str;
+    }
+
+    /**
+     * 设置TDS传感器的K值
+     */
+    //% block="set TDS K %value"
+    //% weight=70
+    export function setK(value: number) {
+
+        let ret1 = parseInt(value.toString());
+        writeReg(STM32_ADDRESS, REG_STM32_K_INTEGER, ret1);
+        let ret2 = (value * 100 - ret1 * 100);
+        writeReg(STM32_ADDRESS, REG_SEM32_K_DECIMAL, ret2);
     }
 
     /**
