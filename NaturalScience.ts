@@ -363,7 +363,10 @@ namespace NaturalScience {
         // Fake function for simulator
         return 0
     }
-
+    
+    /**
+     * 获取水的温度
+     */
     //% weight=80 blockId="get DS18B20 Temp" 
     //% block="get DS18B20 Temp "
     export function TemperatureNumber(): number {
