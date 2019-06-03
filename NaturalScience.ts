@@ -58,7 +58,7 @@ namespace NaturalScience {
 
     function getRGBC() {
         if (!TCS34725_BEGIN) tcs34725_begin();
-       
+
         TCS34725_RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
         TCS34725_RGBC_R = getUInt16LE(TCS34725_ADDRESS, REG_RED_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
         TCS34725_RGBC_G = getUInt16LE(TCS34725_ADDRESS, REG_GREEN_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
@@ -67,7 +67,7 @@ namespace NaturalScience {
         basic.pause(50);
         let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)
         ret |= TCS34725_ENABLE_AIEN;
-        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE| REG_TCS34725_COMMAND_BIT, ret)
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT, ret)
     }
 
     /**
@@ -177,7 +177,7 @@ namespace NaturalScience {
     //% block="get TDS"
     //% weight=70
     export function getTDS(): number {
-        let ret1 = readReg(STM32_ADDRESS, REG_SEM32_TDS_L);
+        let ret1 = readReg(STM32_ADDRESS, REG_STM32_TDS_H);
         let ret2 = readReg(STM32_ADDRESS, REG_SEM32_TDS_L);
         return (ret1 << 8) | ret2;
     }
