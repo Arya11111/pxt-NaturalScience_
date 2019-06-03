@@ -30,21 +30,6 @@ namespace NaturalScience {
         RGBC_ENABLE = 0X01,
         RGBC_DISABLE = 0X00
     }
-    enum TCS34725IntegrationTime_t {
-        TCS34725_INTEGRATIONTIME_2_4MS = 0xFF,
-        TCS34725_INTEGRATIONTIME_24MS = 0xF6,
-        TCS34725_INTEGRATIONTIME_50MS = 0xEB,
-        TCS34725_INTEGRATIONTIME_101MS = 0xD5,
-        TCS34725_INTEGRATIONTIME_154MS = 0xC0,
-        TCS34725_INTEGRATIONTIME_700MS = 0x00
-    }
-    enum TCS34725Gain_t {
-        TCS34725_GAIN_1X = 0x00,
-        TCS34725_GAIN_4X = 0x01,
-        TCS34725_GAIN_16X = 0x02,
-        TCS34725_GAIN_60X = 0x03
-    }
-
 
     function getInt8LE(addr: number, reg: number): number {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
@@ -53,7 +38,7 @@ namespace NaturalScience {
 
     function getUInt16LE(addr: number, reg: number): number {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(TCS34725_ADDRESS, NumberFormat.UInt16LE);
+        return pins.i2cReadNumber(addr, NumberFormat.UInt16LE);
     }
 
     function getInt16LE(addr: number, reg: number): number {
@@ -79,25 +64,16 @@ namespace NaturalScience {
 
     function getRGBC() {
         if (!TCS34725_BEGIN) tcs34725_begin();
-        /**
-         * TCS34725_RGBC_C = getUInt16LE(REG_CLEAR_CHANNEL_L);
-                TCS34725_RGBC_R = getUInt16LE(REG_RED_CHANNEL_L);
-                TCS34725_RGBC_G = getUInt16LE(REG_RED_CHANNEL_L);
-                TCS34725_RGBC_B = getUInt16LE(REG_BLUE_CHANNEL_L);
-                basic.pause(50);
-                tcs34725_lock();
-        
-         */
-
-        TCS34725_RGBC_C = getUInt16LE(TCS34725_ADDRESS, 0x14 | REG_TCS34725_COMMAND_BIT);
-        TCS34725_RGBC_R = getUInt16LE(TCS34725_ADDRESS, 0x16 | REG_TCS34725_COMMAND_BIT);
-        TCS34725_RGBC_G = getUInt16LE(TCS34725_ADDRESS, 0x18 | REG_TCS34725_COMMAND_BIT);
-        TCS34725_RGBC_B = getUInt16LE(TCS34725_ADDRESS, 0x1A | REG_TCS34725_COMMAND_BIT);
+       
+        TCS34725_RGBC_C = getUInt16LE(TCS34725_ADDRESS, REG_CLEAR_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
+        TCS34725_RGBC_R = getUInt16LE(TCS34725_ADDRESS, REG_RED_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
+        TCS34725_RGBC_G = getUInt16LE(TCS34725_ADDRESS, REG_GREEN_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
+        TCS34725_RGBC_B = getUInt16LE(TCS34725_ADDRESS, REG_BLUE_CHANNEL_L | REG_TCS34725_COMMAND_BIT);
 
         basic.pause(50);
-        let ret = readReg(TCS34725_ADDRESS, 0 | REG_TCS34725_COMMAND_BIT)
-        ret |= 0x10;
-        writeReg(TCS34725_ADDRESS, 0 | REG_TCS34725_COMMAND_BIT, ret)
+        let ret = readReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE | REG_TCS34725_COMMAND_BIT)
+        ret |= TCS34725_ENABLE_AIEN;
+        writeReg(TCS34725_ADDRESS, REG_TCS34725_ENABLE| REG_TCS34725_COMMAND_BIT, ret)
     }
 
     /**
@@ -211,7 +187,7 @@ namespace NaturalScience {
         let ret2 = readReg(STM32_ADDRESS, REG_SEM32_TDS_L);
         return (ret1 << 8) | ret2;
     }
-    
+
     /**
      * 获取声音强度函数
      */
@@ -363,7 +339,7 @@ namespace NaturalScience {
         // Fake function for simulator
         return 0
     }
-    
+
     /**
      * 获取水的温度
      */
